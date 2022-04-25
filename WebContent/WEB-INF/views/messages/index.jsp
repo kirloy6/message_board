@@ -6,7 +6,7 @@
         <ul>
             <c:forEach var="message" items="${messages}">
                 <li>
-                    <a href="${pageContent.request.contextPath}/show?id=${message.id}">
+                    <a href="${pageContext.request.contextPath}/show?id=${message.id}">
                         <c:out value="${message.id}"/>
                     </a>
                     :<c:out value="${message.title}"></c:out> &gt; <c:out value="${message.content}"/>
@@ -14,7 +14,7 @@
             </c:forEach>
         </ul>
 
-        <p><a href="${pageContent.request.contextPath}/new">新規メッセージの投稿</a></p>
+        <p><a href="${pageContext.request.contextPath}/new">新規メッセージの投稿</a></p>
 
     </c:param>
 
