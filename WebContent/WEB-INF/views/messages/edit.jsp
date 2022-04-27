@@ -20,8 +20,7 @@
                 </p>
                 <form method="POST"
                     action="${pageContext.request.contextPath}/destroy">
-                    <input type="hidden" name="_token" value="${_token}" />
-                    //_tokenはEditServletリクエストスコープ
+                    <input type="hidden" name="_token" value="${_token}" /> <!-- _tokenはEditServletリクエストスコープ-->
                 </form>
                 <script>
                     function confirmDestroy() {
