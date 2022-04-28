@@ -33,15 +33,32 @@ public class IndexServlet extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         EntityManager em=DBUtil.createEntityManager();
 
-        List<Message> messages=em.createNamedQuery("getAllMessages",Message.class).getResultList();
+      //開くページを取得
+        int page=1;
+        try {
+            page=Integer.parseInt(request.getParameter("page"));
+        } catch(NumberFormatException e) {
 
-        response.getWriter().append(Integer.valueOf(messages.size()).toString());
+        }
+
+
+        List<Message> messages=em.createNamedQuery("getAllMessages",Message.class)
+                .setFirstResult(15*(page-1))
+                .setMaxResults(15)
+                .getResultList();
+
+        long messages_count=(long)em.createNamedQuery("getMessageCount",Long.class)
+                .getSingleResult();
+
 
         em.close();
+        request.setAttribute("messages", messages);
+        request.setAttribute("messages_count", messages_count);     // 全件数
+        request.setAttribute("page", page);                         // ページ数
 
-        request.setAttribute("messages",messages);
         if(request.getSession().getAttribute("flush") !=null) {
             request.setAttribute("flush", request.getSession().getAttribute("flush"));
             //セッションスコープからリクエストスコープへ移し替え
